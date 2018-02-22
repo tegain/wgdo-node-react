@@ -3431,10 +3431,6 @@ function verifyPlainObject(value, displayName, methodName) {
 "use strict";
 
 
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
-
 var _react = __webpack_require__(0);
 
 var _react2 = _interopRequireDefault(_react);
@@ -3453,10 +3449,6 @@ var _router = __webpack_require__(65);
 
 var _router2 = _interopRequireDefault(_router);
 
-var _Header = __webpack_require__(129);
-
-var _Header2 = _interopRequireDefault(_Header);
-
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 var store = (0, _reducers2.default)();
@@ -3468,14 +3460,10 @@ var App = function App() {
     _react2.default.createElement(
       'div',
       null,
-      _react2.default.createElement(_Header2.default, null),
       _react2.default.createElement(_router2.default, null)
     )
   );
 };
-
-exports.default = App;
-
 
 _reactDom2.default.render(_react2.default.createElement(App, null), document.getElementById('root'));
 
@@ -23660,6 +23648,8 @@ var _react2 = _interopRequireDefault(_react);
 
 var _reactRouterDom = __webpack_require__(30);
 
+var _AdminRoute = __webpack_require__(133);
+
 var _DashboardPage = __webpack_require__(91);
 
 var _DashboardPage2 = _interopRequireDefault(_DashboardPage);
@@ -23681,9 +23671,9 @@ var AdminRouter = function AdminRouter() {
     _react2.default.createElement(
       _reactRouterDom.Switch,
       null,
-      _react2.default.createElement(_reactRouterDom.Route, { path: '/', component: _DashboardPage2.default, exact: true }),
-      _react2.default.createElement(_reactRouterDom.Route, { path: '/posts', component: _Posts2.default }),
-      _react2.default.createElement(_reactRouterDom.Route, { component: _NotFoundPage2.default })
+      _react2.default.createElement(_AdminRoute.AdminRoute, { path: '/', component: _DashboardPage2.default, exact: true }),
+      _react2.default.createElement(_AdminRoute.AdminRoute, { path: '/posts', component: _Posts2.default }),
+      _react2.default.createElement(_AdminRoute.AdminRoute, { component: _NotFoundPage2.default })
     )
   );
 };
@@ -29379,17 +29369,7 @@ var _reactRouterDom = __webpack_require__(30);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-var Header = function Header(props) {
-	var authButton = props.auth ? _react2.default.createElement(
-		'a',
-		{ href: '/api/logout' },
-		'Logout'
-	) : _react2.default.createElement(
-		'a',
-		{ href: '/api/auth/google' },
-		'Login'
-	);
-
+var Header = function Header() {
 	return _react2.default.createElement(
 		'nav',
 		null,
@@ -29408,8 +29388,8 @@ var Header = function Header(props) {
 					'li',
 					null,
 					_react2.default.createElement(
-						_reactRouterDom.Link,
-						{ to: '/' },
+						'a',
+						{ href: '/' },
 						'View website'
 					)
 				)
@@ -29438,10 +29418,14 @@ exports.default = (0, _reactRedux.connect)(mapStateToProps)(Header);
 
 
 Object.defineProperty(exports, "__esModule", {
-	value: true
+  value: true
 });
 
 var _redux = __webpack_require__(107);
+
+var _reduxThunk = __webpack_require__(132);
+
+var _reduxThunk2 = _interopRequireDefault(_reduxThunk);
 
 var _posts = __webpack_require__(131);
 
@@ -29449,9 +29433,15 @@ var _posts2 = _interopRequireDefault(_posts);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-exports.default = (0, _redux.combineReducers)({
-	posts: _posts2.default
-});
+var composeEnhancers = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE || _redux.compose;
+
+exports.default = function () {
+  var store = (0, _redux.createStore)((0, _redux.combineReducers)({
+    posts: _posts2.default
+  }), composeEnhancers((0, _redux.applyMiddleware)(_reduxThunk2.default)));
+
+  return store;
+};
 
 /***/ }),
 /* 131 */
@@ -29476,6 +29466,86 @@ exports.default = function () {
 		default:
 			return state;
 	}
+};
+
+/***/ }),
+/* 132 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+exports.__esModule = true;
+function createThunkMiddleware(extraArgument) {
+  return function (_ref) {
+    var dispatch = _ref.dispatch,
+        getState = _ref.getState;
+    return function (next) {
+      return function (action) {
+        if (typeof action === 'function') {
+          return action(dispatch, getState, extraArgument);
+        }
+
+        return next(action);
+      };
+    };
+  };
+}
+
+var thunk = createThunkMiddleware();
+thunk.withExtraArgument = createThunkMiddleware;
+
+exports['default'] = thunk;
+
+/***/ }),
+/* 133 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.AdminRoute = undefined;
+
+var _extends = Object.assign || function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; };
+
+var _react = __webpack_require__(0);
+
+var _react2 = _interopRequireDefault(_react);
+
+var _propTypes = __webpack_require__(2);
+
+var _propTypes2 = _interopRequireDefault(_propTypes);
+
+var _reactRouterDom = __webpack_require__(30);
+
+var _Header = __webpack_require__(129);
+
+var _Header2 = _interopRequireDefault(_Header);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+function _objectWithoutProperties(obj, keys) { var target = {}; for (var i in obj) { if (keys.indexOf(i) >= 0) continue; if (!Object.prototype.hasOwnProperty.call(obj, i)) continue; target[i] = obj[i]; } return target; }
+
+var AdminRoute = function AdminRoute(_ref) {
+  var Component = _ref.component,
+      rest = _objectWithoutProperties(_ref, ['component']);
+
+  return _react2.default.createElement(_reactRouterDom.Route, _extends({}, rest, { component: function component(props) {
+      return _react2.default.createElement(
+        'div',
+        null,
+        _react2.default.createElement(_Header2.default, null),
+        _react2.default.createElement(Component, props)
+      );
+    } }));
+};
+
+exports.AdminRoute = AdminRoute;
+AdminRoute.propTypes = {
+  component: _propTypes2.default.element
 };
 
 /***/ })

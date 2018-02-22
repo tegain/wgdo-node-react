@@ -1,5 +1,6 @@
 import React from 'react';
-import { BrowserRouter, Route, Switch } from 'react-router-dom';
+import { BrowserRouter, Switch } from 'react-router-dom';
+import { AdminRoute } from './AdminRoute';
 
 import DashboardPage from '../pages/DashboardPage';
 import NotFoundPage from '../pages/NotFoundPage';
@@ -8,9 +9,9 @@ import Posts from '../pages/Posts';
 const AdminRouter = () => (
   <BrowserRouter basename="/admin">
     <Switch>
-      <Route path="/" component={DashboardPage} exact={true} />
-      <Route path="/posts" component={Posts} />
-      <Route component={NotFoundPage} />
+      <AdminRoute path="/" component={DashboardPage} exact={true}/>
+      <AdminRoute path="/posts" component={Posts}/>
+      <AdminRoute component={NotFoundPage}/>
     </Switch>
   </BrowserRouter>
 );
