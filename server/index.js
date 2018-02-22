@@ -1,4 +1,5 @@
 require('@Root/config/config');
+const path = require('path');
 import 'babel-polyfill'; // Avoid `regeneratorRuntime is not defined`
 import express from 'express';
 import proxy from 'express-http-proxy';
@@ -17,12 +18,19 @@ app.use(
 	proxy('http://localhost:3000')
 );
 
+app.use('/admin/', express.static('server/client/admin/public'));
+app.get('/admin/*', (req, res) => {
+  // res.send({ 'page': 'admin' });
+  console.log(__dirname);
+  res.sendFile(path.resolve('server/client/admin/public/index.html'));
+});
+
 // Tell Express to treat the public directory as the public one on front end
-app.use(express.static('server/client/app/public'));
+app.use('/', express.static('server/client/app/public'));
 
 // Tell Express to watch for any route,
 // and let React Router deal with actual router
-app.get('*', (req, res) => {
+app.get('/*', (req, res) => {
 	// Create redux store before actually rendering the component,
 	// in order to add some logic to this store
 	const store = createStore(req);

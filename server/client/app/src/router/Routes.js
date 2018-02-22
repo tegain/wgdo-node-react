@@ -1,6 +1,7 @@
 import App from '../App';
 import HomePage from '../pages/HomePage';
 import NotFoundPage from '../pages/NotFoundPage';
+import LoginPage from '../pages/LoginPage';
 import Posts from '../pages/Posts';
 
 /**
@@ -24,6 +25,10 @@ export default [
 				...Posts,
 				path: '/posts'
 			},
+      {
+        ...LoginPage,
+        path: '/login'
+      },
 			{
 				...NotFoundPage
 			}

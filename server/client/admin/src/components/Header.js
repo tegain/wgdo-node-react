@@ -13,12 +13,10 @@ const Header = (props) => {
 	return (
 		<nav>
 			<div className="nav-wrapper">
-				<Link to="/" className="brand-logo left">WGDO</Link>
+				<Link to="/" className="brand-logo left">React SSR</Link>
 
 				<ul className="right">
-					<li><Link to="/posts">Posts</Link></li>
-					<li><Link to="/login">Login</Link></li>
-					<li>{authButton}</li>
+					<li><Link to="/">View website</Link></li>
 				</ul>
 			</div>
 		</nav>

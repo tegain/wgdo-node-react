@@ -8,6 +8,7 @@
     "dev:server": "nodemon --watch build --exec \"node server/build/bundle.js\"",
     "dev:build-server": "webpack --config webpack.server.js --watch",
     "dev:build-client": "webpack --config webpack.client.js --watch",
+    "dev:build-admin": "webpack --config webpack.admin.js --watch",
     "api:start": "node api/server.js",
     "api:start-watch": "nodemon api/server.js",
     "api:test": "export NODE_ENV=test || SET \"NODE_ENV=test\" && mocha api/**/*.test.js",

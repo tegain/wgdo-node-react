@@ -12,7 +12,7 @@ import Routes from './router/Routes';
 import reducers from './reducers';
 
 const axiosInstance = axios.create({
-	baseURL: '/api' // Will automatically prepend this to the request urls
+  baseURL: '/api' // Will automatically prepend this to the request urls
 });
 
 /**
@@ -20,9 +20,9 @@ const axiosInstance = axios.create({
  * @type {Store<any>}
  */
 const store = createStore(
-	reducers,
-	window.INITIAL_STATE,
-	applyMiddleware(thunk.withExtraArgument(axiosInstance)) // Add extraArgument to thunk (https://github.com/gaearon/redux-thunk/blob/master/test/index.js)
+  reducers,
+  window.INITIAL_STATE,
+  applyMiddleware(thunk.withExtraArgument(axiosInstance)) // Add extraArgument to thunk (https://github.com/gaearon/redux-thunk/blob/master/test/index.js)
 );
 
 /**
@@ -40,14 +40,14 @@ const store = createStore(
  * @doc https://reactjs.org/docs/react-dom.html#hydrate
  */
 ReactDOM.hydrate(
-	// Render the Router container inside of redux Provider
-	<Provider store={store}>
-		<BrowserRouter>
-			{/**
-			 * renderRoutes takes an array of routes objects and render them as react routes
-			 */}
-			<div>{renderRoutes(Routes)}</div>
-		</BrowserRouter>
-	</Provider>
-	, document.querySelector('#root')
+  // Render the Router container inside of redux Provider
+  <Provider store={store}>
+    <BrowserRouter>
+      {/**
+       * renderRoutes takes an array of routes objects and render them as react routes
+       */}
+      <div>{renderRoutes(Routes)}</div>
+    </BrowserRouter>
+  </Provider>
+  , document.querySelector('#root')
 );
