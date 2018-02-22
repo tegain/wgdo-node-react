@@ -1,0 +1,10 @@
+# Common
+
+.idea
+node_modules
+.env
+
+# Builds
+
+server/build/*
+server/client/app/public/*
