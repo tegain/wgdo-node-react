@@ -12,7 +12,7 @@ const AdminRouter = () => (
   <BrowserRouter basename="/admin">
     <Switch>
       <AdminRoute path="/" component={DashboardPage} exact={true}/>
-      <AdminRoute path="/posts" component={PostsPage}/>
+      <AdminRoute path="/posts" component={PostsPage} exact={true}/>
       <AdminRoute path="/posts/add" component={AddPostPage}/>
       <AdminRoute path="/posts/edit/:id" component={EditPostPage}/>
       <AdminRoute component={NotFoundPage}/>

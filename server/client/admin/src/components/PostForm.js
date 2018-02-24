@@ -1,16 +1,58 @@
-import React from 'react';
+import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 
-const PostForm = (props) => (
-	<div>
-		<h3>{props.title}</h3>
-		<p>{props.text}</p>
-	</div>
-);
+export default class PostForm extends Component {
+
+  constructor (props) {
+    super (props);
+
+    this.state = {
+      title: props.post ? props.post.title : '',
+      text: props.post ? props.post.text : ''
+    }
+  }
+
+  onTitleChange = (e) => {
+    const title = e.target.value;
+    this.setState(() => ({ title }));
+  };
+
+  onTextChange = (e) => {
+    const text = e.target.value;
+    this.setState(() => ({ text }));
+  };
+
+  onSubmit = (e) => {
+    e.preventDefault();
+    console.log('Submitted!');
+  };
+
+  render () {
+    return (
+      <div>
+        <form onSubmit={this.onSubmit}>
+          <div>
+            <input
+              type="text"
+              placeholder="Add title for the post"
+              value={this.state.title}
+              onChange={this.onTitleChange}
+            />
+          </div>
+          <div>
+            <textarea
+              placeholder="Add content for the post"
+              value={this.state.text}
+              onChange={this.onTextChange}
+            >
+            </textarea>
+          </div>
+        </form>
+      </div>
+    )
+  }
+}
 
 PostForm.propTypes = {
-  title: PropTypes.string,
-  text: PropTypes.string
+  post: PropTypes.object
 };
-
-export default PostForm;

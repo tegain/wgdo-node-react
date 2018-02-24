@@ -10,7 +10,15 @@ const Header = () => {
 				<Link to="/" className="brand-logo left">React SSR</Link>
 
 				<ul className="right">
-					<li><a href="/">View website</a></li>
+          <li>
+            <Link to="/posts">Posts</Link>
+          </li>
+          <li>
+            <Link to="/pages">Pages</Link>
+          </li>
+					<li>
+            <a href="/">View website</a>
+          </li>
 				</ul>
 			</div>
 		</nav>

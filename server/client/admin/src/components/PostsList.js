@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
+import { Link } from 'react-router-dom';
 import { Helmet } from 'react-helmet';
 import { connect } from 'react-redux';
 import Post from '../components/Post';
@@ -25,8 +26,10 @@ class PostsList extends Component {
         <h1>Liste des posts</h1>
 
         {this.props.posts.map(post => (
-          <Post key={post._id} title={post.title} text={post.text}/>
+          <Post key={post._id} title={post.title} text={post.text} id={post._id}/>
         ))}
+
+        <Link to="/posts/add">Add post</Link>
       </div>
     );
   }

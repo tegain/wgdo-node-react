@@ -5,6 +5,7 @@ class AddPostPage extends Component {
     return (
       <div>
         <h1>Add a post</h1>
+
       </div>
     );
   }

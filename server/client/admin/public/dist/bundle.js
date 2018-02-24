@@ -34247,7 +34247,7 @@ var AdminRouter = function AdminRouter() {
       _reactRouterDom.Switch,
       null,
       _react2.default.createElement(_AdminRoute.AdminRoute, { path: '/', component: _DashboardPage2.default, exact: true }),
-      _react2.default.createElement(_AdminRoute.AdminRoute, { path: '/posts', component: _PostsPage2.default }),
+      _react2.default.createElement(_AdminRoute.AdminRoute, { path: '/posts', component: _PostsPage2.default, exact: true }),
       _react2.default.createElement(_AdminRoute.AdminRoute, { path: '/posts/add', component: _AddPostPage2.default }),
       _react2.default.createElement(_AdminRoute.AdminRoute, { path: '/posts/edit/:id', component: _EditPostPage2.default }),
       _react2.default.createElement(_AdminRoute.AdminRoute, { component: _NotFoundPage2.default })
@@ -37311,6 +37311,24 @@ var Header = function Header() {
 					'li',
 					null,
 					_react2.default.createElement(
+						_reactRouterDom.Link,
+						{ to: '/posts' },
+						'Posts'
+					)
+				),
+				_react2.default.createElement(
+					'li',
+					null,
+					_react2.default.createElement(
+						_reactRouterDom.Link,
+						{ to: '/pages' },
+						'Pages'
+					)
+				),
+				_react2.default.createElement(
+					'li',
+					null,
+					_react2.default.createElement(
 						'a',
 						{ href: '/' },
 						'View website'
@@ -38458,6 +38476,8 @@ var _propTypes = __webpack_require__(11);
 
 var _propTypes2 = _interopRequireDefault(_propTypes);
 
+var _reactRouterDom = __webpack_require__(76);
+
 var _reactHelmet = __webpack_require__(173);
 
 var _reactRedux = __webpack_require__(107);
@@ -38522,8 +38542,13 @@ var PostsList = function (_Component) {
           'Liste des posts'
         ),
         this.props.posts.map(function (post) {
-          return _react2.default.createElement(_Post2.default, { key: post._id, title: post.title, text: post.text });
-        })
+          return _react2.default.createElement(_Post2.default, { key: post._id, title: post.title, text: post.text, id: post._id });
+        }),
+        _react2.default.createElement(
+          _reactRouterDom.Link,
+          { to: '/posts/add' },
+          'Add post'
+        )
       );
     }
   }]);
@@ -38558,12 +38583,14 @@ exports.default = (0, _reactRedux.connect)(mapStateToProps, { fetchPosts: _actio
 
 
 Object.defineProperty(exports, "__esModule", {
-	value: true
+  value: true
 });
 
 var _react = __webpack_require__(4);
 
 var _react2 = _interopRequireDefault(_react);
+
+var _reactRouterDom = __webpack_require__(76);
 
 var _propTypes = __webpack_require__(11);
 
@@ -38572,25 +38599,31 @@ var _propTypes2 = _interopRequireDefault(_propTypes);
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 var Post = function Post(props) {
-	return _react2.default.createElement(
-		'div',
-		null,
-		_react2.default.createElement(
-			'h3',
-			null,
-			props.title
-		),
-		_react2.default.createElement(
-			'p',
-			null,
-			props.text
-		)
-	);
+  return _react2.default.createElement(
+    'div',
+    null,
+    _react2.default.createElement(
+      'h3',
+      null,
+      props.title
+    ),
+    _react2.default.createElement(
+      'p',
+      null,
+      props.text
+    ),
+    _react2.default.createElement(
+      _reactRouterDom.Link,
+      { to: '/posts/edit/' + props.id },
+      'Edit'
+    )
+  );
 };
 
 Post.propTypes = {
-	title: _propTypes2.default.string,
-	text: _propTypes2.default.string
+  title: _propTypes2.default.string,
+  text: _propTypes2.default.string,
+  id: _propTypes2.default.string
 };
 
 exports.default = Post;
@@ -38668,6 +38701,16 @@ var _react = __webpack_require__(4);
 
 var _react2 = _interopRequireDefault(_react);
 
+var _propTypes = __webpack_require__(11);
+
+var _propTypes2 = _interopRequireDefault(_propTypes);
+
+var _reactRedux = __webpack_require__(107);
+
+var _PostForm = __webpack_require__(489);
+
+var _PostForm2 = _interopRequireDefault(_PostForm);
+
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
@@ -38686,6 +38729,11 @@ var EditPostPage = function (_Component) {
   }
 
   _createClass(EditPostPage, [{
+    key: 'componentDidMount',
+    value: function componentDidMount() {
+      console.log(this.props);
+    }
+  }, {
     key: 'render',
     value: function render() {
       return _react2.default.createElement(
@@ -38695,7 +38743,8 @@ var EditPostPage = function (_Component) {
           'h1',
           null,
           'Edit a post'
-        )
+        ),
+        _react2.default.createElement(_PostForm2.default, { post: this.props.post })
       );
     }
   }]);
@@ -38703,9 +38752,19 @@ var EditPostPage = function (_Component) {
   return EditPostPage;
 }(_react.Component);
 
-EditPostPage.propTypes = {};
+EditPostPage.propTypes = {
+  post: _propTypes2.default.object
+};
 
-exports.default = EditPostPage;
+var mapStateToProps = function mapStateToProps(state, props) {
+  return {
+    post: state.posts.find(function (post) {
+      return post._id === props.match.params.id;
+    })
+  };
+};
+
+exports.default = (0, _reactRedux.connect)(mapStateToProps)(EditPostPage);
 
 /***/ }),
 /* 463 */
@@ -40259,6 +40318,112 @@ module.exports = function spread(callback) {
   };
 };
 
+
+/***/ }),
+/* 489 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+
+var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+
+var _react = __webpack_require__(4);
+
+var _react2 = _interopRequireDefault(_react);
+
+var _propTypes = __webpack_require__(11);
+
+var _propTypes2 = _interopRequireDefault(_propTypes);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
+
+function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+
+var PostForm = function (_Component) {
+  _inherits(PostForm, _Component);
+
+  function PostForm(props) {
+    _classCallCheck(this, PostForm);
+
+    var _this = _possibleConstructorReturn(this, (PostForm.__proto__ || Object.getPrototypeOf(PostForm)).call(this, props));
+
+    _this.onTitleChange = function (e) {
+      var title = e.target.value;
+      _this.setState(function () {
+        return { title: title };
+      });
+    };
+
+    _this.onTextChange = function (e) {
+      var text = e.target.value;
+      _this.setState(function () {
+        return { text: text };
+      });
+    };
+
+    _this.onSubmit = function (e) {
+      e.preventDefault();
+      console.log('Submitted!');
+    };
+
+    _this.state = {
+      title: props.post ? props.post.title : '',
+      text: props.post ? props.post.text : ''
+    };
+    return _this;
+  }
+
+  _createClass(PostForm, [{
+    key: 'render',
+    value: function render() {
+      return _react2.default.createElement(
+        'div',
+        null,
+        _react2.default.createElement(
+          'form',
+          { onSubmit: this.onSubmit },
+          _react2.default.createElement(
+            'div',
+            null,
+            _react2.default.createElement('input', {
+              type: 'text',
+              placeholder: 'Add title for the post',
+              value: this.state.title,
+              onChange: this.onTitleChange
+            })
+          ),
+          _react2.default.createElement(
+            'div',
+            null,
+            _react2.default.createElement('textarea', {
+              placeholder: 'Add content for the post',
+              value: this.state.text,
+              onChange: this.onTextChange
+            })
+          )
+        )
+      );
+    }
+  }]);
+
+  return PostForm;
+}(_react.Component);
+
+exports.default = PostForm;
+
+
+PostForm.propTypes = {
+  post: _propTypes2.default.object
+};
 
 /***/ })
 /******/ ]);
