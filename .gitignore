@@ -7,4 +7,5 @@ node_modules
 # Builds
 
 server/build/*
+server/client/admin/public/dist/*
 server/client/app/public/*

@@ -5,7 +5,7 @@ import { connect } from 'react-redux';
 import Post from '../components/Post';
 import { fetchPosts } from "../actions";
 
-class Posts extends Component {
+class PostsList extends Component {
   componentDidMount() {
     this.props.fetchPosts();
   }
@@ -32,7 +32,7 @@ class Posts extends Component {
   }
 }
 
-Posts.propTypes = {
+PostsList.propTypes = {
   posts: PropTypes.array,
   fetchPosts: PropTypes.func
 };
@@ -46,7 +46,4 @@ export const loadData = (store) => {
   return store.dispatch(fetchPosts());
 };
 
-export default {
-  loadData,
-  component: connect(mapStateToProps, {fetchPosts})(Posts),
-};
+export default connect(mapStateToProps, {fetchPosts})(PostsList);

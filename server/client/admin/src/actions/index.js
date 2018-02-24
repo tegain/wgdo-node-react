@@ -1,3 +1,5 @@
+import axios from 'axios'
+
 export const FETCH_POSTS = 'FETCH_POSTS';
 
 /**
@@ -8,8 +10,8 @@ export const FETCH_POSTS = 'FETCH_POSTS';
  * @returns {function(*, *, *)}
  */
 export const fetchPosts = () => {
-	return async (dispatch, getState, api) => {
-		const res = await api.get('/posts');
+	return async (dispatch) => {
+		const res = await axios.get('/api/posts');
 
 		dispatch({
 			type: FETCH_POSTS,

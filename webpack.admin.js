@@ -6,7 +6,7 @@ const baseConfig = require('./webpack.base');
 const config = {
 
 	// Tell Webpack the root file of our server app
-	entry: './server/client/admin/src/index.js',
+	entry: ['babel-polyfill', './server/client/admin/src/index.js'],
 
 	// Where to put the generated output file
 	output: {

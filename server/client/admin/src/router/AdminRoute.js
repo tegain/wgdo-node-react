@@ -7,7 +7,7 @@ export const AdminRoute = ({
     component: Component,
     ...rest
   }) => (
-  <Route {...rest} component={(props) => (
+  <Route {...rest} render={(props) => (
     <div>
       <Header/>
       <Component {...props} />
@@ -16,5 +16,6 @@ export const AdminRoute = ({
 );
 
 AdminRoute.propTypes = {
-  component: PropTypes.element
+  component: PropTypes.any
 };
+
